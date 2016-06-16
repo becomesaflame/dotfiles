@@ -22,3 +22,7 @@ colorscheme elflord
 " Automatically switch to case sensitive search if you use any capital letters
 set smartcase
 
+" syntax highlighting for ROS xml files
+syntax on
+au BufRead,BufNewFile *.launch setfiletype xml
+au BufRead,BufNewFile *.machine setfiletype xml
