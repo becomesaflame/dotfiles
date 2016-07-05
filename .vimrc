@@ -22,3 +22,5 @@ colorscheme elflord
 " Automatically switch to case sensitive search if you use any capital letters
 set smartcase
 
+" Set syntax highlighting for system verilog
+au BufNewFile,BufRead *.sv set filetype=verilog
