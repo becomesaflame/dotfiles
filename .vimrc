@@ -26,3 +26,6 @@ set smartcase
 syntax on
 au BufRead,BufNewFile *.launch setfiletype xml
 au BufRead,BufNewFile *.machine setfiletype xml
+
+" syntax highlighting for Arduino files
+au BufRead,BufNewFile *.ino setfiletype c
