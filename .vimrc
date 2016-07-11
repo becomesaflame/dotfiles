@@ -22,5 +22,13 @@ colorscheme elflord
 " Automatically switch to case sensitive search if you use any capital letters
 set smartcase
 
+" syntax highlighting for ROS xml files
+syntax on
+au BufRead,BufNewFile *.launch setfiletype xml
+au BufRead,BufNewFile *.machine setfiletype xml
+
+" syntax highlighting for Arduino files
+au BufRead,BufNewFile *.ino setfiletype c
+
 " Set syntax highlighting for system verilog
 au BufNewFile,BufRead *.sv set filetype=verilog
