@@ -77,3 +77,7 @@ au BufRead,BufNewFile *.ino setfiletype c
 
 " Set syntax highlighting for system verilog
 au BufNewFile,BufRead *.sv set filetype=verilog
+
+" Clear highlighting on escape in normal mode
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
