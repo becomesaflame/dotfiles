@@ -6,3 +6,6 @@ alias pcat="pygmentize -O style-native -g"
 alias ll="ls -lAh"
 alias la="ls -lAh"
 
+# Autocomplete options
+bind "set completion-ignore-case on"
+# bind "set show-all-if-ambiguous on"
