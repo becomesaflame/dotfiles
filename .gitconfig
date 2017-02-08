@@ -1,6 +1,3 @@
-[user]
-	name = Steve Grandpre
-	email = Steven_D_Grandpre@raytheon.com
 [push]
 	default = matching
 [core]
@@ -31,4 +28,5 @@
 	dc = diff --cached
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
 	hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %Cblue<%an>%Creset' --abbrev-commit --date=short --all
-
+[include]
+  path = ~/.gitconfig.local
