@@ -46,6 +46,10 @@ map <C-n> :NERDTreeToggle<CR>
 " Use two spaces instead of tabs
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
+" Open new split panes to right and bottom
+set splitbelow
+set splitright
+
 set autoread
 
 set number
@@ -81,3 +85,7 @@ au BufNewFile,BufRead *.sv set filetype=verilog
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
+
+" Handle common capital W typo
+map :W :w
+
