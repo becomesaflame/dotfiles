@@ -9,3 +9,7 @@ alias la="ls -lAh"
 # Autocomplete options
 bind "set completion-ignore-case on"
 # bind "set show-all-if-ambiguous on"
+
+# Ruby rbenv shim
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
