@@ -3,8 +3,8 @@
 alias pcat="pygmentize -O style-native -g"
 
 # Override ls aliases
-alias ll="ls -lAh"
-alias la="ls -lAh"
+alias ll="ls -lah --color"
+alias la="ls -lAh --color"
 
 # Autocomplete options
 bind "set completion-ignore-case on"
