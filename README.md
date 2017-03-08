@@ -17,5 +17,15 @@ $ tmux source ~/.tmux.conf
 Press prefix + I to install plugins
 
 If there's no internet:
-$ cp -r /git/dotfiles/.tmux/plugins ~/.tmux/
+$ cp -r /git/dotfiles/.tmux/ ~
+
+
+### Set up vim plugged:
+$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+Reload .vimrc and :PlugInstall to install plugins.
+
+If there's no internet:
+$ cp -r /git/dotfiles/.vim ~/.vim
 
