@@ -27,5 +27,5 @@ $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 Reload .vimrc and :PlugInstall to install plugins.
 
 If there's no internet:
-$ cp -r /git/dotfiles/.vim ~/.vim
+$ cp -r /git/dotfiles/.vim ~
 
