@@ -15,6 +15,9 @@ Plug 'tpope/vim-sensible'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
+" Commenting!
+Plug 'scrooloose/nerdcommenter'
+
 " Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 "
 " " Using a non-master branch
@@ -33,6 +36,13 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Plug '~/my-prototype-plugin'
 
 " Add plugins to &runtimepath
+
+
+" fzf plugin - sublime text style Ctrl+p file open
+"
+Plug 'junegunn/fzf', { 'tag': '0.12.2', 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim', { 'commit': '4d91156' }
+
 call plug#end()
 " ------------------------------------------------------
 
@@ -41,6 +51,34 @@ call plug#end()
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Toggle NERDTree with Ctrl+n 
 map <C-n> :NERDTreeToggle<CR>
+
+" fzf settings (Ctrl+p)
+map <C-P> :FZF<CR>
+
+
+" NERD Commenter settings
+filetype plugin on
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
 
 
 " Use two spaces instead of tabs
