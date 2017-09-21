@@ -1,21 +1,14 @@
 [push]
-	default = matching
+	default = matching 
 [core]
 	trustctime = false
 	editor = vim
 	filemode = false
-	autocrlf = true
+	autocrlf = input 
 [color]
 	ui = true
 [credential]
 	helper = cache --timeout=3600
-[merge]
-	tool = vimdiff
-[mergetool]
-	keeptemporaries = false
-	keepbackups = false
-	prompt = false
-	trustexitcode = false
 [alias]
 	last = log -1 --stat
 	cp = cherry-pick
@@ -28,5 +21,10 @@
 	dc = diff --cached
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
 	hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %Cblue<%an>%Creset' --abbrev-commit --date=short --all
+  type = cat-file -t
+  dump = cat-file -p
 [include]
   path = ~/.gitconfig.local
+[http]
+	sslVerify = false
+	sslCAInfo = D:/git/clue/ca-bundle.crt

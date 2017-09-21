@@ -1,0 +1,18 @@
+# Windows Shell Paths
+CYGWIN_ROOT="/d/cygwin64"
+CYGWIN_HOME="/d/cygwin64/home/grandps"
+GITBASH_ROOT="/c/Users/grandps/AppData/Local/Programs/Git/"
+GITBASH_HOME="/c/Users/grandps"
+
+# Get Cygwin to put git branch name in prompt
+# export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\] `__git_ps1`\[\033[0m\] \n$ " 
+# Doesn't work.  Needs more troubleshooting
+
+alias ct="cleartool"
+
+#Anaconda python 3 
+PATH="/c/Users/grandps/AppData/Local/Continuum/Anaconda3:/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts:$PATH"
+# alias pip3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pip"
+# alias pyflakes3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pyflakes"
+# alias pep3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pep8"
+
