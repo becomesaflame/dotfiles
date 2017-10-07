@@ -16,3 +16,4 @@ PATH="/c/Users/grandps/AppData/Local/Continuum/Anaconda3:/c/Users/grandps/AppDat
 # alias pyflakes3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pyflakes"
 # alias pep3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pep8"
 
+PATH="~/bin:$PATH"
