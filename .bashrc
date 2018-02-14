@@ -18,3 +18,5 @@ eval "$(rbenv init -)"
 
 # Run local bash settings
 source ~/.bashrc.local
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

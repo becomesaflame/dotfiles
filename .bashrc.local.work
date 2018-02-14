@@ -1,14 +1,19 @@
 # Windows Shell Paths
-CYGWIN_ROOT="/d/cygwin64"
-CYGWIN_HOME="/d/cygwin64/home/grandps"
+# CYGWIN_ROOT="/d/cygwin64"
+# CYGWIN_HOME="/d/cygwin64/home/grandps"
 GITBASH_ROOT="/c/Users/grandps/AppData/Local/Programs/Git/"
 GITBASH_HOME="/c/Users/grandps"
+WSL_ROOT="/mnt/c/Users/grandps/AppData/Local/lxss"
+WSL_HOME="/mnt/c/Users/grandps/AppData/Local/lxss/home/grandps"
 
 # Get Cygwin to put git branch name in prompt
 # export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\] `__git_ps1`\[\033[0m\] \n$ " 
 # Doesn't work.  Needs more troubleshooting
 
-alias ct="cleartool"
+# Get WSL to put git branch name in prompt
+# export PS1="\033[1;32m${debian_chroot:+($debian_chroot)}\u@\h:\w \033[1;36m$(__git_ps1 '(%s)')\033[m \n\$ "
+
+# alias ct="cleartool"
 
 #Anaconda python 3 
 PATH="/c/Users/grandps/AppData/Local/Continuum/Anaconda3:/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts:$PATH"

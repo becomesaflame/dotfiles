@@ -49,7 +49,7 @@ call plug#end()
 " NERDTree setup
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Toggle NERDTree with Ctrl+n 
+" Toggle NERDTree with Ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 
 " fzf settings (Ctrl+p)
