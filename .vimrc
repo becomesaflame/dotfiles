@@ -132,3 +132,6 @@ map :Wq :wq
 " Leader commmands
 noremap <leader>w :%s/\s\+$//g<CR> " remove all trailing whitespace from a file
 noremap <leader>/ :NERDComToggleComment<CR>
+
+" Automatically change current directory to the opened file
+set autochdir
