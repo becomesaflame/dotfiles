@@ -135,3 +135,6 @@ noremap <leader>/ :NERDComToggleComment<CR>
 
 " Automatically change current directory to the opened file
 set autochdir
+
+" Source local settings
+source .vimrc.local
