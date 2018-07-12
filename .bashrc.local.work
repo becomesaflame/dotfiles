@@ -22,3 +22,6 @@ PATH="/c/Users/grandps/AppData/Local/Continuum/Anaconda3:/c/Users/grandps/AppDat
 # alias pep3="/c/Users/grandps/AppData/Local/Continuum/Anaconda3/scripts/pep8"
 
 PATH="~/bin:$PATH"
+
+# Support symlinks in git Bash on windows
+export MSYS=winsymlinks:native
