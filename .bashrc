@@ -8,6 +8,8 @@ alias la="ls -lAh --color"
 
 alias lt="find . -iname '*.txt'"
 
+alias cp="cp -r"
+
 # Autocomplete options
 bind "set completion-ignore-case on"
 # bind "set show-all-if-ambiguous on"
@@ -20,3 +22,6 @@ eval "$(rbenv init -)"
 source ~/.bashrc.local
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Path for git diff-so-fancy
+export PATH="/c/git/diff-so-fancy:$PATH"
