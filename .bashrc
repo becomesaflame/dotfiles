@@ -11,8 +11,10 @@ alias lt="find . -iname '*.txt'"
 alias cp="cp -r"
 
 # Autocomplete options
-bind "set completion-ignore-case on"
-# bind "set show-all-if-ambiguous on"
+if [ -n "$PS1" ] ; then # Check if interactive shell
+  bind "set completion-ignore-case on"
+  # bind "set show-all-if-ambiguous on"
+fi
 
 # Ruby rbenv shim
 if [ -d "$HOME/.rbenv/bin" ]; then
