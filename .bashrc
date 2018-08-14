@@ -11,17 +11,20 @@ alias lt="find . -iname '*.txt'"
 alias cp="cp -r"
 
 # Autocomplete options
-bind "set completion-ignore-case on"
-# bind "set show-all-if-ambiguous on"
+if [ -n "$PS1" ] ; then # Check if interactive shell
+  bind "set completion-ignore-case on"
+  # bind "set show-all-if-ambiguous on"
+fi
 
 # Ruby rbenv shim
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if [ -d "$HOME/.rbenv/bin" ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
 
-# Run local bash settings
-source ~/.bashrc.local
-
+# Start fuzzy finder
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Path for git diff-so-fancy
-export PATH="/c/git/diff-so-fancy:$PATH"
+# Run local bash settings
+[ -f .bashrc.local ] && source ~/.bashrc.local
+
