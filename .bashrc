@@ -23,8 +23,8 @@ if [ -d "$HOME/.rbenv/bin" ]; then
 fi
 
 # Start fuzzy finder
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Run local bash settings
-[ -f .bashrc.local ] && source ~/.bashrc.local
+[ -e .bashrc.local ] && source ~/.bashrc.local
 

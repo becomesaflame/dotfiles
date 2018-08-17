@@ -27,6 +27,6 @@ PATH="~/bin:$PATH"
 export MSYS=winsymlinks:native
 
 # Path for git diff-so-fancy
-diff_so_fancy_path="/c/git/diff_so_fancy"
-[ -f diff_so_fancy_path ] && export PATH="$diff_so_fancy_path:$PATH"
+diff_so_fancy_path="/c/git/diff-so-fancy"
+[ -d "$diff_so_fancy_path" ] && export PATH="$diff_so_fancy_path:$PATH"
 
