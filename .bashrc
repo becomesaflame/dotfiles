@@ -26,5 +26,4 @@ fi
 [ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Run local bash settings
-[ -e .bashrc.local ] && source ~/.bashrc.local
-
+[ -e ~/.bashrc.local ] && source ~/.bashrc.local
