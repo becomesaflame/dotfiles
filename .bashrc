@@ -25,5 +25,8 @@ fi
 # Start fuzzy finder
 [ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
+# Add local bin to path
+PATH="~/bin:$PATH"
+
 # Run local bash settings
 [ -e ~/.bashrc.local ] && source ~/.bashrc.local
