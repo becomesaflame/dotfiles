@@ -9,6 +9,7 @@ alias la="ls -lAh --color"
 alias lt="find . -iname '*.txt'"
 
 alias cp="cp -r"
+alias rcp='rsync -rvz --progress'
 
 # Autocomplete options
 if [ -n "$PS1" ] ; then # Check if interactive shell
