@@ -1,0 +1,3 @@
+[submodule "raylee-tldr"]
+	path = raylee-tldr
+	url = https://github.com/raylee/tldr.git

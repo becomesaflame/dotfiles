@@ -19,25 +19,25 @@ If symlinks don't work (e.g. in cygwin), create a .gitconfig that points here:
 
 ### Set up tpm (tmux plugin manager): 
 ```
-$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 
 ```
 
 If tmux is running, source conf with:
 ```
-$ tmux source ~/.tmux.conf
+tmux source ~/.tmux.conf
 ```
 
 Press prefix + I to install plugins
 
 If there's no internet:
 ```
-$ cp -r /git/dotfiles/.tmux/ ~
+cp -r /git/dotfiles/.tmux/ ~
 ```
 
 
 ### Set up vim plugged:
 ```
-$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 ```
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -45,5 +45,15 @@ Reload .vimrc and :PlugInstall to install plugins.
 
 If there's no internet:
 ```
-$ cp -r /git/dotfiles/.vim ~
+cp -r /git/dotfiles/.vim ~
 ```
+
+### Set up tldr:
+```
+mkdir ~/bin
+cp raylee-tldr/tldr ~/bin/
+source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+```
+If there is an internet connection, run `tldr -c` to cache commands
+Otherwise copy or link  `.config` to home directory:
+`cp .config ~`
