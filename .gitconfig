@@ -1,5 +1,6 @@
 [push]
 	default = simple 
+  followTags = true
 [core]
 	trustctime = false
 	editor = vim
