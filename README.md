@@ -50,10 +50,18 @@ cp -r /git/dotfiles/.vim ~
 
 ### Set up tldr:
 ```
-mkdir ~/bin
+[ -d "~/bin" ] || mkdir ~/bin
 cp raylee-tldr/tldr ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 ```
 If there is an internet connection, run `tldr -c` to cache commands
 Otherwise copy or link  `.config` to home directory:
 `cp .config ~`
+
+### Set up diff-so-fancy:
+Copy the diff-so-fancy executeable to your path:
+```
+[ -d "~/bin" ] || mkdir ~/bin
+cp diff-so-fancy/diff-so-fancy ~/bin/
+source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+```
