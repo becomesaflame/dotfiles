@@ -30,3 +30,5 @@
 	path = ~/.gitconfig.local
 [submodule]
 	recurse = true
+[http]
+	sslbackend = openssl
