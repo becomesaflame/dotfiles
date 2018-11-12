@@ -32,4 +32,3 @@
 	recurse = true
 [http]
 	sslbackend = openssl
-	sslCAInfo = /user/grandps/certs/bundle.cer

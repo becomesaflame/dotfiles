@@ -1,0 +1,14 @@
+[user]
+	name = Steve Grandpre
+	email = Steven_D_Grandpre@raytheon.com
+[http]
+	sslCAInfo = /user/grandps/certs/bundle.cer
+	sslbackend = openssl
+[difftool "bc3"]
+	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+  trustExitCode = true
+[mergetool "bc3"]
+	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+  trustExitCode = true
+[diff]
+  tool = bc3
