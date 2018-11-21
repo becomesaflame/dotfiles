@@ -12,3 +12,5 @@
   trustExitCode = true
 [diff]
   tool = bc3
+[credential]
+  helper = store
