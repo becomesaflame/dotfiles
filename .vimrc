@@ -137,4 +137,4 @@ noremap <leader>/ :NERDComToggleComment<CR>
 set autochdir
 
 " Source local settings
-source .vimrc.local
+source ~/.vimrc.local

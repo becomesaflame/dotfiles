@@ -1,2 +1,10 @@
 # Set prompt
 PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n$'
+
+source /usr/share/lsf/conf/profile.lsf
+
+
+# CLUE Setup
+# Set Anaconda path and PYTHONHOME path
+PATH=$CLUE_SITE_APP_PATH/anaconda/anaconda/4.4.0/install/bin:$PATH; export PATH
+PYTHONHOME=${CLUE_SITE_APP_PATH}/anaconda/anaconda/4.4.0/install; export PYTHONHOME
