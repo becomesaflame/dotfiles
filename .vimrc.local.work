@@ -1,4 +1,3 @@
 " Set up ctags
 set tags=~/tags
 set tags+=~/.vim/tags/dbs
-
