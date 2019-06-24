@@ -8,3 +8,6 @@ source /usr/share/lsf/conf/profile.lsf
 # Set Anaconda path and PYTHONHOME path
 PATH=$CLUE_SITE_APP_PATH/anaconda/anaconda/4.4.0/install/bin:$PATH; export PATH
 PYTHONHOME=${CLUE_SITE_APP_PATH}/anaconda/anaconda/4.4.0/install; export PYTHONHOME
+
+export CLUE_LOG_LEVEL=INFO
+export CLUE_LOG_COLS="0"
