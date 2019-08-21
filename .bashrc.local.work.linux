@@ -3,7 +3,7 @@ PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n$'
 
 source /usr/share/lsf/conf/profile.lsf
 
-PATH=/apps/git/git18/bin/git:$PATH; export PATH
+PATH=/apps/git/git18/bin:$PATH; export PATH
 
 # CLUE Setup
 # Set Anaconda path and PYTHONHOME path
