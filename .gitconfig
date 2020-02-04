@@ -1,5 +1,5 @@
 [push]
-	default = simple 
+	default = simple
   followTags = true
 [core]
 	trustctime = false
