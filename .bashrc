@@ -28,6 +28,7 @@ fi
 
 # Add local bin to path
 PATH="~/bin:$PATH"
+PATH="~/local/bin:$PATH"
 
 # Run local bash settings
 [ -e ~/.bashrc.local ] && source ~/.bashrc.local
