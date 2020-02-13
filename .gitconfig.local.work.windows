@@ -10,3 +10,6 @@
 	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
 [diff]
   tool = bc3
+[hub]
+	host = https://cdlhub.app.ray.com
+	protocol = https
