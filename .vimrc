@@ -136,6 +136,10 @@ noremap <leader>/ :NERDComToggleComment<CR>
 " Automatically change current directory to the opened file
 set autochdir
 
+" Always display the path of the current file
+set laststatus=2
+set statusline+=%F
+
 " Source local settings
 if filereadable(".vimrc.local")
   source .vimrc.local
