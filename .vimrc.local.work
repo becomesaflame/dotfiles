@@ -1,3 +1,8 @@
 " Set up ctags
 set tags=~/tags
 set tags+=~/.vim/tags/dbs
+
+" Fix numpad enter on linux server
+map <Esc>OM <Enter>
+map! <Esc>OM <Enter>
+

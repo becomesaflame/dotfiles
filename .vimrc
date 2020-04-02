@@ -141,6 +141,8 @@ set laststatus=2
 set statusline+=%F
 
 " Source local settings
-if filereadable(".vimrc.local")
-  source .vimrc.local
+if filereadable(expand("$HOME/.vimrc.local"))
+  source $HOME/.vimrc.local
+else
+  echo "Can't read " . $HOME . "/.vimrc.local"
 endif
