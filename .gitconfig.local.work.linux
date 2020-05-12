@@ -1,6 +1,6 @@
 [user]
 	name = Steve Grandpre
-	email = Steven_D_Grandpre@raytheon.com
+	email = steven.d.grandpre@rtx.com
 [http]
 	sslCAInfo = /user/grandps/certs/bundle.cer
 	sslbackend = openssl
