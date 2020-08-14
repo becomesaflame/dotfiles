@@ -4,14 +4,11 @@
 # tmux will be installed in $HOME/local/bin.
 # It's assumed that wget and a C/C++ compiler are installed.
 
-# exit on error
-set -e
-
 TMUX_VERSION=3.1b
 
 # create our directories
-mkdir -p $HOME/local $HOME/tmux_install_files
-cd $HOME/tmux_install_files
+mkdir -p $HOME/local tmux_install_files
+cd tmux_install_files
 
 # download source files for tmux, libevent, and ncurses
 wget -O tmux-${TMUX_VERSION}.tar.gz https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz
@@ -39,6 +36,10 @@ cd ncurses-5.9
 make
 make install
 cd ..
+
+# At this point the tmux tarball has somehow been replaced with an empty file. 
+# No idea why, but here's a hack to fix it
+git checkout -- tmux-${TMUX_VERSION}.tar.gz
 
 ############
 # tmux     #

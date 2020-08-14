@@ -27,8 +27,8 @@ fi
 [ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Add local bin to path
-PATH="~/bin:$PATH"
-PATH="~/local/bin:$PATH"
+PATH="$HOME/bin:$PATH"
+PATH="$HOME/local/bin:$PATH"
 
 # Run local bash settings
 [ -e ~/.bashrc.local ] && source ~/.bashrc.local
