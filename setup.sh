@@ -3,8 +3,10 @@
 usage() {
   cmd=$(basename $0)
   cat <<EOF
+
 Automatically sets up symbolic links in the home directory.
 Configures settings and plugins.
+
 USAGE: ./$cmd [options]
 $cmd [-l|--locale]
 Specify a locale. 
@@ -19,6 +21,18 @@ Print this help message
 
 EOF
 exit 0
+}
+
+# takes submodule name as argument
+# If submodule loaded properly, copies it into a backup with ".offline" appended
+backupSubmodule(){
+  submoduleDir="$1"
+  if [ "$(ls -A $submoduleDir)" ]; then # submodule has files in it
+    # Update the offline backup
+    rm -r $submoduleDir.offline
+    cp -r $submoduleDir $submoduleDir.offline
+    rm $submoduleDir.offline/.git
+  fi
 }
 
 
@@ -52,6 +66,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+##########################
+# Dotfiles
+##########################
 
 # Set up symbolic links in home directory
 rootDir=$(pwd)
@@ -71,12 +88,23 @@ else
 fi
 
 
+#########################
+# Plugins and tools
+#########################
+
 # Set up vim plugged
+backupSubmodule "vim-sensible"
+# update offline .vim folder
+rm -r $rootdir/.vim/plugged/vim-sensible
+cp -r vim-sensible.offline $rootdir/.vim/plugged/vim-sensible
+
+# Attempt to set up vim plugged the normal way
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 internet=$?
 echo "internet = $internet"
 
+# Use offline backup if curl failed
 if [ "$internet" != 0 ]; then
   cp -r $rootDir/.vim/ ~
 fi
@@ -95,18 +123,30 @@ echo "In tmux, enter prefix + I to install plugins"
 
 
 # Set up tldr
+backupSubmodule "raylee-tldr"
 [ -d ~/bin ] || mkdir ~/bin
-cp raylee-tldr/tldr ~/bin/
+cp raylee-tldr.offline/tldr ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 if [ "$internet" != 0 ]; then
   cp .config ~
 else
+  [ -d ~/.config ] || mdkir ~/.config
   tldr -c
+  cp ~/.config/tldr/index.json .config/tldr/ # Update offline backup with latest tldr config
 fi
 
 
 # Set up diff-so-fancy
+backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
-cp diff-so-fancy/diff-so-fancy ~/bin/
+cp diff-so-fancy.offline/diff-so-fancy ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+
+
+# Remind user to check in updates to backups
+git update-index --refresh
+if ! git diff-index --quiet HEAD --; then # There are uncommitted changes
+  echo "Backup files have been updated. Commit and push them"
+  echo
+fi
