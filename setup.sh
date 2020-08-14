@@ -125,22 +125,22 @@ echo "In tmux, enter prefix + I to install plugins"
 # Set up tldr
 backupSubmodule "raylee-tldr"
 [ -d ~/bin ] || mkdir ~/bin
-cp raylee-tldr.offline/tldr ~/bin/
+cp -r raylee-tldr.offline/tldr ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 if [ "$internet" != 0 ]; then
-  cp .config ~
+  cp -r .config ~
 else
   [ -d ~/.config ] || mdkir ~/.config
   tldr -c
-  cp ~/.config/tldr/index.json .config/tldr/ # Update offline backup with latest tldr config
+  cp -r ~/.config/tldr/index.json .config/tldr/ # Update offline backup with latest tldr config
 fi
 
 
 # Set up diff-so-fancy
 backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
-cp diff-so-fancy.offline/diff-so-fancy ~/bin/
+cp -r diff-so-fancy.offline/diff-so-fancy ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
