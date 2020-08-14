@@ -111,6 +111,9 @@ fi
 
 echo "Reload .vimrc and :PlugInstall to install vim plugins."
 
+# Install tmux
+chmod +x tmux_local_install.sh
+./tmux_local_install.sh
 
 # Set up tpm (tmux plugin manager)
 if [ "$internet" != 0 ]; then
