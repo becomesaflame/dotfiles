@@ -55,6 +55,12 @@ map <C-n> :NERDTreeToggle<CR>
 " fzf settings (Ctrl+p)
 map <C-P> :FZF<CR>
 
+" Jump to middle of line
+nmap % :call cursor(0, virtcol('$')/2)<CR>
+
+" Jump to matching brace
+nnoremap  %
+
 
 " NERD Commenter settings
 filetype plugin on

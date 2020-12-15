@@ -5,10 +5,10 @@
 	sslCAInfo = /user/grandps/certs/bundle.cer
 	sslbackend = openssl
 [difftool "bc3"]
-	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+	path = /bin/bcompare
   trustExitCode = true
 [mergetool "bc3"]
-	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+	path = /bin/bcompare
   trustExitCode = true
 [diff]
   tool = bc3

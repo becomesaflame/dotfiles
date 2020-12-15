@@ -11,7 +11,7 @@ alias lt="find . -iname '*.txt'"
 alias cp="cp -r"
 alias rcp='rsync -rvz --progress'
 
-alias yeet="rm -r"
+alias yeet="rm -rf"
 alias :e="vim"
 
 # Autocomplete options
