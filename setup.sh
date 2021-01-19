@@ -31,7 +31,6 @@ backupSubmodule(){
     # Update the offline backup
     rm -r $submoduleDir.offline
     cp -r $submoduleDir $submoduleDir.offline
-    rm $submoduleDir.offline/.git
   fi
 }
 
@@ -144,6 +143,13 @@ fi
 backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r diff-so-fancy.offline/diff-so-fancy ~/bin/
+source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+
+
+# Set up fzf
+cd fzf-portable
+./install --all --no-fish --no-zsh
+cd -
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
