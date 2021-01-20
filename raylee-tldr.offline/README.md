@@ -1,6 +1,10 @@
-# tldr-bash
+# tldr
 
-A fully-functional [bash](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) client for [tldr](https://github.com/rprieto/tldr/). This version aims to be the easiest and smallest to set up on a new account, without sacrificing any features.
+A fully-functional POSIX shell client for [tldr](https://github.com/rprieto/tldr/).
+This version aims to be the easiest, smallest, and most universal client to set up
+on a new account, without sacrificing any features. It uses only `/bin/sh` features
+and `curl`, and tested on Linux, OSX, FreeBSD, with `bash`, `sh`, `dash`, `ksh`,
+`zsh`, `csh`.
 
 ![tldr screenshot](Screenshot.png?raw=true)
 
@@ -15,7 +19,7 @@ Then try using the command! If you get an error such as _-bash: tldr: command no
 you may need to add `~/bin` to your `$PATH`. On OSX edit `~/.bash_profile`
 (`~/.bashrc` on Linux), and add the following line to the bottom of the file:
 ```bash
-export PATH=~/bin:$PATH
+export PATH=$PATH:~/bin
 ```
 
 If you'd like to enable shell completion (eg. `tldr w<tab><tab>` to get a
@@ -45,7 +49,7 @@ command
 ```
 
 The client caches a copy of all pages and the index locally under
-~/.config/tldr. By default, the cached copies will expire in 14 days.
+~/.config/tldr. By default, the cached copies will automatically update every 14 days.
 
 ## Customization
 You can change the styling of the output from `tldr` by defining some environment variables. For

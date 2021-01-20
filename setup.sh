@@ -147,7 +147,8 @@ source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
 # Set up fzf
-cd fzf-portable
+backupSubmodule "fzf-portable"
+cd fzf-portable.offline
 ./install --all --no-fish --no-zsh
 cd -
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
