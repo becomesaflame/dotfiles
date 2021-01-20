@@ -25,6 +25,10 @@ exit 0
 
 # takes submodule name as argument
 # If submodule loaded properly, copies it into a backup with ".offline" appended
+# DEPRECATED
+# Instead of using submodules, we now check an entire normal repo into the dotfiles repo
+# This means the files in the nested repo are tracked in dotfiles, and can be updated by
+# cd'ing into the nested repo and pulling
 backupSubmodule(){
   submoduleDir="$1"
   if [ "$(ls -A $submoduleDir)" ]; then # submodule has files in it
@@ -92,7 +96,7 @@ fi
 #########################
 
 # Set up vim plugged
-backupSubmodule "vim-sensible"
+# backupSubmodule "vim-sensible"
 # update offline .vim folder
 rm -r $rootdir/.vim/plugged/vim-sensible
 cp -r vim-sensible.offline $rootdir/.vim/plugged/vim-sensible
@@ -125,7 +129,7 @@ echo "In tmux, enter prefix + I to install plugins"
 
 
 # Set up tldr
-backupSubmodule "raylee-tldr"
+# backupSubmodule "raylee-tldr"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r raylee-tldr.offline/tldr ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
@@ -140,7 +144,7 @@ fi
 
 
 # Set up diff-so-fancy
-backupSubmodule "diff-so-fancy"
+# backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r diff-so-fancy.offline/diff-so-fancy ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
