@@ -70,6 +70,9 @@ done
 ##########################
 
 # Set up symbolic links in home directory
+echo "-----------------------------"
+echo "Installing dotfiles"
+echo "-----------------------------"
 rootDir=$(pwd)
 ln -s $rootDir/.bashrc ~/.bashrc
 ln -s $rootDir/.vimrc ~/.vimrc
@@ -78,6 +81,9 @@ ln -s $rootDir/.tmux.conf ~/.tmux.conf
 
 
 # Set up locale files
+echo "-----------------------------"
+echo "Installing locale files"
+echo "-----------------------------"
 if [ "$locale" == "work" ]; then 
   ln -s "$rootDir/.vimrc.local.work" ~/.vimrc.local
   ln -s "$rootDir/.bashrc.local.work.$platform" ~/.bashrc.local
@@ -92,11 +98,9 @@ fi
 #########################
 
 # Set up vim plugged
-backupSubmodule "vim-sensible"
-# update offline .vim folder
-rm -r $rootdir/.vim/plugged/vim-sensible
-cp -r vim-sensible.offline $rootdir/.vim/plugged/vim-sensible
-
+echo "-----------------------------"
+echo "Installing vim plugged"
+echo "-----------------------------"
 # Attempt to set up vim plugged the normal way
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -108,11 +112,23 @@ if [ "$internet" != 0 ]; then
   cp -r $rootDir/.vim/ ~
 fi
 
+echo "-----------------------------"
+echo "Installing vim-sensible"
+echo "-----------------------------"
+backupSubmodule "vim-sensible"
+# update offline .vim folder
+rm -r $rootdir/.vim/plugged/vim-sensible
+cp -r vim-sensible.offline $rootdir/.vim/plugged/vim-sensible
+
+
 echo "Reload .vimrc and :PlugInstall to install vim plugins."
 
 # Install tmux
 chmod +x tmux_local_install.sh
-./tmux_local_install.sh
+echo "-----------------------------"
+echo "Installing tmux"
+echo "-----------------------------"
+which tmux >/dev/null 2>&1 || ./tmux_local_install.sh
 
 # Set up tpm (tmux plugin manager)
 if [ "$internet" != 0 ]; then
@@ -125,6 +141,9 @@ echo "In tmux, enter prefix + I to install plugins"
 
 
 # Set up tldr
+echo "-----------------------------"
+echo "Installing tldr"
+echo "-----------------------------"
 backupSubmodule "raylee-tldr"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r raylee-tldr.offline/tldr ~/bin/
@@ -140,6 +159,9 @@ fi
 
 
 # Set up diff-so-fancy
+echo "-----------------------------"
+echo "Installing diff-so-fancy"
+echo "-----------------------------"
 backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r diff-so-fancy.offline/diff-so-fancy ~/bin/
@@ -147,9 +169,13 @@ source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
 # Set up fzf
+echo "-----------------------------"
+echo "Installing fzf"
+echo "-----------------------------"
 backupSubmodule "fzf-portable"
 cd fzf-portable.offline
-./install --all --no-fish --no-zsh
+chmod +x install
+which fzf >/dev/null 2>&1 || ./install --all --no-fish --no-zsh
 cd -
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
