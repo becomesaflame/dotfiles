@@ -155,7 +155,8 @@ unzip() {
     unzip $file_to_unzip -d "$fzf_base"/bin
   fi
 
-  chmod +x $"fzf_base"/bin/fzf && check_binary
+  chmod +x "$fzf_base"/bin/fzf && check_binary
+  chmod +x "$fzf_base"/bin/fzf-tmux
 }
 
 append_line() {
