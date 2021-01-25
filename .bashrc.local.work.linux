@@ -24,3 +24,6 @@ TMOUT=0; export TMOUT
 http_proxy=proxy.ext.ray.com:80
 https_proxy=proxy.ext.ray.com:80
 export no_proxy=ray.com
+
+# Fix selection highlighting in visual mode with Vim
+alias tmux="tmux -2"
