@@ -26,9 +26,7 @@
 	type = cat-file -t
 	dump = cat-file -p
 	wl = worktree list
-[include]
-	path = ~/.gitconfig.local
 [submodule]
 	recurse = true
-[http]
-	sslbackend = openssl
+[include]
+	path = ~/.gitconfig.local
