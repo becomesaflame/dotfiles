@@ -46,7 +46,6 @@ while [[ $# -gt 0 ]]; do
       shift # past parameter
       ;;
     -p|--platform)
-      echo "args are $@"
       platform="$2"
       shift # past argument
       shift # past parameter
@@ -55,15 +54,16 @@ while [[ $# -gt 0 ]]; do
       usage
       ;;
   esac
-  if [ "$locale" != "work" ] && [ "$locale" != "home" ]; then
-    echo "Invalid locale $locale.  Locale may be \"home\" or \"work\"."
-    exit 1
-  fi
-  if [ "$platform" != "linux" ] && [ "$platform" != "windows" ]; then
-    echo "Invalid platform $platform.  Platform may be \"linux\" or \"windows\"."
-    exit 1
-  fi
 done
+
+if [ "$locale" != "work" ] && [ "$locale" != "home" ]; then
+  echo "Invalid locale $locale.  Locale may be \"home\" or \"work\"."
+  exit 1
+fi
+if [ "$platform" != "linux" ] && [ "$platform" != "windows" ]; then
+  echo "Invalid platform $platform.  Platform may be \"linux\" or \"windows\"."
+  exit 1
+fi
 
 ##########################
 # Dotfiles
@@ -149,6 +149,7 @@ echo "-----------------------------"
 backupSubmodule "raylee-tldr"
 [ -d ~/bin ] || mkdir ~/bin
 cp -r raylee-tldr.offline/tldr ~/bin/
+chmod +x ~/bin/tldr
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 if [ "$internet" != 0 ]; then
@@ -166,7 +167,8 @@ echo "Installing diff-so-fancy"
 echo "-----------------------------"
 backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
-cp -r diff-so-fancy.offline/third_party/build_fatpackdiff-so-fancy ~/bin/
+cp -r diff-so-fancy.offline/third_party/build_fatpack/diff-so-fancy ~/bin/
+chmod +x ~/bin/diff-so-fancy
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
