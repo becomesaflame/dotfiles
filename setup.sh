@@ -42,20 +42,12 @@ while [[ $# -gt 0 ]]; do
   case $key in
     -l|--locale)
       locale="$2"
-      if [ "$locale" != "work" ] && [ "$locale" != "home" ]; then
-        echo "Invalid locale $locale.  Locale may be \"home\" or \"work\"."
-        exit 1
-      fi
       shift # past argument
       shift # past parameter
       ;;
     -p|--platform)
       echo "args are $@"
       platform="$2"
-      if [ "$platform" != "linux" ] && [ "$platform" != "windows" ]; then
-        echo "Invalid platform $platform.  Platform may be \"linux\" or \"windows\"."
-        exit 1
-      fi
       shift # past argument
       shift # past parameter
       ;;
@@ -63,6 +55,14 @@ while [[ $# -gt 0 ]]; do
       usage
       ;;
   esac
+  if [ "$locale" != "work" ] && [ "$locale" != "home" ]; then
+    echo "Invalid locale $locale.  Locale may be \"home\" or \"work\"."
+    exit 1
+  fi
+  if [ "$platform" != "linux" ] && [ "$platform" != "windows" ]; then
+    echo "Invalid platform $platform.  Platform may be \"linux\" or \"windows\"."
+    exit 1
+  fi
 done
 
 ##########################
@@ -79,12 +79,14 @@ ln -s $rootDir/.tmux.conf ~/.tmux.conf
 
 # Set up locale files
 if [ "$locale" == "work" ]; then 
-  ln -s "$rootDir/.vimrc.local.work" ~/.vimrc.local
   ln -s "$rootDir/.bashrc.local.work.$platform" ~/.bashrc.local
   ln -s "$rootDir/.gitconfig.local.work.$platform" ~/.gitconfig.local
 else
+  ln -s "$rootDir/.bashrc.local.home" ~/.bashrc.local
   ln -s "$rootDir/.gitconfig.local.home" ~/.gitconfig.local
 fi
+
+ln -s "$rootDir/.vimrc.local.$locale" ~/.vimrc.local
 
 
 #########################

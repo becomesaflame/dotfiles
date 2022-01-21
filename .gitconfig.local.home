@@ -1,3 +1,7 @@
 [user]
 	name = Spark
 	email = spark.scul@gmail.com
+[credential "https://source.developers.google.com"]
+	helper = gcloud.sh
+[http]
+  sslBackend = gnutls
