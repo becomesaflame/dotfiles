@@ -164,7 +164,7 @@ echo "Installing diff-so-fancy"
 echo "-----------------------------"
 backupSubmodule "diff-so-fancy"
 [ -d ~/bin ] || mkdir ~/bin
-cp -r diff-so-fancy.offline/diff-so-fancy ~/bin/
+cp -r diff-so-fancy.offline/third_party/build_fatpackdiff-so-fancy ~/bin/
 source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
 
 
