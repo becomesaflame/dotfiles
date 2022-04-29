@@ -152,3 +152,6 @@ if filereadable(expand("$HOME/.vimrc.local"))
 else
   echo "Can't read " . $HOME . "/.vimrc.local"
 endif
+
+" ctags - search starting in current directory for ctags file
+set tags=./tags;/

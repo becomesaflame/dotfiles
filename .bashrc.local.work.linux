@@ -11,8 +11,10 @@ PATH=/apps/git/git18/bin:$PATH; export PATH
 
 # CLUE Setup
 # Set Anaconda path and PYTHONHOME path
-PATH=$CLUE_SITE_APP_PATH/anaconda/anaconda/4.4.0/install/bin:$PATH; export PATH
-PYTHONHOME=${CLUE_SITE_APP_PATH}/anaconda/anaconda/4.4.0/install; export PYTHONHOME
+if [ -n "${CLUE_SITE_APP_PATH}" ]; then
+  PATH=$CLUE_SITE_APP_PATH/anaconda/anaconda/4.4.0/install/bin:$PATH; export PATH
+  PYTHONHOME=${CLUE_SITE_APP_PATH}/anaconda/anaconda/4.4.0/install; export PYTHONHOME
+fi
 
 export CLUE_LOG_LEVEL=INFO
 export CLUE_LOG_COLS="0"
@@ -27,3 +29,10 @@ export no_proxy=ray.com
 
 # Fix selection highlighting in visual mode with Vim
 alias tmux="tmux -2"
+
+
+#module load /apps/git_2.13.3/git_2.13.3.module
+#module add /projs/cl_collab/apps/anaconda/anaconda/4.4.0/anaconda.module
+
+export PATH=/projs/cl_collab/apps/foss/git/latest/install/bin:$PATH
+export PATH=/projs/cl_collab/apps/anaconda/anaconda/4.4.0/install/bin:${PATH}

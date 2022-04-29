@@ -29,5 +29,9 @@
   fetch =  fetch --recurse-submodules=on-demand
 [submodule]
 	recurse = true
+[http]
+	sslbackend = openssl
+[pull]
+	ff = only
 [include]
 	path = ~/.gitconfig.local
