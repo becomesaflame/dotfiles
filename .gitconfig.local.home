@@ -5,3 +5,9 @@
 	helper = gcloud.sh
 [http]
   sslBackend = gnutls
+[difftool "bc"]
+	path = C:/Program Files/Beyond Compare 4/BCompare.exe
+[mergetool "bc"]
+	path = C:/Program Files/Beyond Compare 4/BCompare.exe
+[diff]
+  tool = bc
