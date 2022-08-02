@@ -26,6 +26,7 @@
 	type = cat-file -t
 	dump = cat-file -p
 	wl = worktree list
+  fetch =  fetch --recurse-submodules=on-demand
 [submodule]
 	recurse = true
 [include]

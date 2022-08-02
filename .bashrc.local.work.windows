@@ -45,6 +45,8 @@ diff_so_fancy_path="/c/git/diff-so-fancy"
 [ -d "$diff_so_fancy_path" ] && export PATH="$diff_so_fancy_path:$PATH"
 
 # Add pyenv to path for WSL
-export PATH="/home/grandps/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if $(which pyenv > /dev/null 2>&1); then
+  export PATH="/home/grandps/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
