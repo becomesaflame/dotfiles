@@ -74,10 +74,10 @@ echo "-----------------------------"
 echo "Installing dotfiles"
 echo "-----------------------------"
 rootDir=$(pwd)
-ln -s $rootDir/.bashrc ~/.bashrc
-ln -s $rootDir/.vimrc ~/.vimrc
-ln -s $rootDir/.gitconfig ~/.gitconfig
-ln -s $rootDir/.tmux.conf ~/.tmux.conf
+ln -sf $rootDir/.bashrc ~/.bashrc
+ln -sf $rootDir/.vimrc ~/.vimrc
+ln -sf $rootDir/.gitconfig ~/.gitconfig
+ln -sf $rootDir/.tmux.conf ~/.tmux.conf
 
 
 # Set up locale files
@@ -85,14 +85,14 @@ echo "-----------------------------"
 echo "Installing locale files"
 echo "-----------------------------"
 if [ "$locale" == "work" ]; then 
-  ln -s "$rootDir/.bashrc.local.work.$platform" ~/.bashrc.local
-  ln -s "$rootDir/.gitconfig.local.work.$platform" ~/.gitconfig.local
+  ln -sf "$rootDir/.bashrc.local.work.$platform" ~/.bashrc.local
+  ln -sf "$rootDir/.gitconfig.local.work.$platform" ~/.gitconfig.local
 else
-  ln -s "$rootDir/.bashrc.local.home" ~/.bashrc.local
-  ln -s "$rootDir/.gitconfig.local.home" ~/.gitconfig.local
+  ln -sf "$rootDir/.bashrc.local.home" ~/.bashrc.local
+  ln -sf "$rootDir/.gitconfig.local.home" ~/.gitconfig.local
 fi
 
-ln -s "$rootDir/.vimrc.local.$locale" ~/.vimrc.local
+ln -sf "$rootDir/.vimrc.local.$locale" ~/.vimrc.local
 
 
 #########################
