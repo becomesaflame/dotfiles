@@ -9,7 +9,7 @@ alias la="ls -lAh --color"
 alias lt="find . -iname '*.txt'"
 
 alias cp="cp -r"
-alias rcp='rsync -rvz --progress'
+alias rcp='rsync -rvz --info-progress2'
 
 alias yeet="rm -rf"
 alias :e="vim"
