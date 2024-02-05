@@ -2,8 +2,7 @@
 	name = Steve Grandpre
 	email = steven.d.grandpre@rtx.com
 [http]
-	sslCAInfo = /user/grandps/certs/bundle.cer
-	sslbackend = openssl
+	#sslCAInfo = /home/grandps/certs/bundle.cer
 [difftool "bc3"]
 	path = /bin/bcompare
   trustExitCode = true

@@ -14,6 +14,8 @@ alias rcp='rsync -rvz --progress'
 alias yeet="rm -rf"
 alias :e="vim"
 
+cl() { cd $1; ll; } 
+
 # Autocomplete options
 if [ -n "$PS1" ] ; then # Check if interactive shell
   bind "set completion-ignore-case on"

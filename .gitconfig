@@ -30,9 +30,9 @@
   clone = clone --recurse-submodules
 [submodule]
 	recurse = true
-[http]
-	sslbackend = openssl
 [pull]
 	ff = only
 [include]
 	path = ~/.gitconfig.local
+[init]
+	defaultBranch = main
