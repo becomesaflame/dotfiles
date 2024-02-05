@@ -4,7 +4,8 @@ alias pcat="pygmentize -O style-native -g"
 
 # Override ls aliases
 alias ll="ls -lah --color"
-alias la="ls -lAh --color"
+alias la="ls -Ah --color"
+alias ls="ls --color"
 
 alias lt="find . -iname '*.txt'"
 

@@ -28,8 +28,6 @@
 	wl = worktree list
   fetch =  fetch --recurse-submodules=on-demand
   clone = clone --recurse-submodules
-[submodule]
-	recurse = true
 [pull]
 	ff = only
 [include]

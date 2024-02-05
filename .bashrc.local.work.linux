@@ -17,6 +17,7 @@ if [ -n "${CLUE_SITE_APP_PATH}" ]; then
 fi
 
 export CLUE_LOG_LEVEL=INFO
+#export CLUE_LOG_LEVEL=DEBUG
 export CLUE_LOG_COLS="0"
 
 # Keep Condor shell from timing out:
@@ -29,6 +30,17 @@ export no_proxy=ray.com
 
 # Fix selection highlighting in visual mode with Vim
 alias tmux="tmux -2"
+
+# UVMF path
+UVMF_HOME=/apps/mentor/UVMF_2019.4_3;export UVMF_HOME
+
+# Xilinx VSI tool setup
+#source /apps/xilinx/Vivado/2021.2/settings64.sh
+#XILINX_VITIS_AIETOOLS=/apps/xilinx/Vitis/2021.2/aietools
+# source /apps/xilinx/Vitis/2021.2/aietools/scripts/aietools_env.sh
+
+# System View tool setup
+#source /proj/DSSoC/install/vsi_2953/settings.sh
 
 
 #module load /apps/git_2.13.3/git_2.13.3.module

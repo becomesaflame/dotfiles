@@ -153,5 +153,12 @@ else
   echo "Can't read " . $HOME . "/.vimrc.local"
 endif
 
+" When you type the first tab hit, it will complete as much as possible. 
+" The second tab hit will provide a list. 
+" The third and subsequent tabs will cycle through completion options so 
+" you can complete the file without further keys.
+set wildmode=longest,list,full
+set wildmenu
+
 " ctags - search starting in current directory for ctags file
 set tags=./tags;/
