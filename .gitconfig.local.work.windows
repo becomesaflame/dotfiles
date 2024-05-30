@@ -2,16 +2,28 @@
 	name = Steve Grandpre
 	email = Steven_D_Grandpre@raytheon.com
 [http]
-	sslCAInfo = C:/certs/bundle.cer
-	sslbackend = openssl
-[difftool "bc3"]
-	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+	#sslCAInfo = C:/certs/bundle.cer
+	#sslbackend = openssl
+	sslCAInfo = ''
+	sslbackend = schannel
+  emptyauth = true
+	sslVerify =
+[difftool "bc4"]
+	#path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+	path = C:/Program Files/Beyond Compare 4/BCompare.exe
 [merge]
-  tool = bc3
-[mergetool "bc3"]
-	path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+  tool = bc4
+[mergetool "bc4"]
+	#path = C:/Program Files (x86)/Beyond Compare 3/BCompare.exe
+	path = C:/Program Files/Beyond Compare 4/BCompare.exe
 [diff]
-  tool = bc3
+  tool = bc4
 [hub]
 	host = https://cdlhub.app.ray.com
 	protocol = https
+[credential "https://cdlhub.app.ray.com"]
+	provider = github
+[credential "https://tfs.rms.ray.com"]
+	provider = generic
+[safe]
+	directory = *

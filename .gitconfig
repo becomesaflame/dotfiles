@@ -28,9 +28,14 @@
 	wl = worktree list
   fetch =  fetch --recurse-submodules=on-demand
   clone = clone --recurse-submodules
+	fist = "!git fetch; git hist"
+[init]
+	defaultBranch = main
+[submodule]
+  #recurse = true
+[http]
+	sslbackend = openssl
 [pull]
 	ff = only
 [include]
 	path = ~/.gitconfig.local
-[init]
-	defaultBranch = main
