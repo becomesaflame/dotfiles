@@ -14,6 +14,7 @@ alias rcp='rsync -rvz --info-progress2'
 
 alias yeet="rm -rf"
 alias :e="vim"
+alias please=sudo
 
 cl() { cd $1; ll; } 
 
