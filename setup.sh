@@ -23,6 +23,8 @@ EOF
 exit 0
 }
 
+cd $(dirname ${BASH_SOURCE[0]})  # Make sure we're in the directory where the script is located
+
 # takes submodule name as argument
 # If submodule loaded properly, copies it into a backup with ".offline" appended
 backupSubmodule(){
