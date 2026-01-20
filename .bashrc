@@ -33,9 +33,15 @@ fi
 # Start fuzzy finder
 [ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
+# venv alias
+alias venv='python3 -m venv .venv && source .venv/bin/activate'
+
 # Add local bin to path
 PATH="$HOME/bin:$PATH"
 PATH="$HOME/local/bin:$PATH"
 
+[ -e ~/.local/bin/env ] && source ~/.local/bin/env
+
 # Run local bash settings
 [ -e ~/.bashrc.local ] && source ~/.bashrc.local
+

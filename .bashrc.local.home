@@ -3,3 +3,6 @@ if [[ $- == *i* ]]; then
   export PS1="\[\033[38;5;40m\]\u@\h\[$(tput sgr0)\]\[\033[38;5;6m\][\[$(tput sgr0)\]\[\033[38;5;15m\]\[$(tput sgr0)\]\[\033[38;5;87m\]\w\[$(tput sgr0)\]\[\033[38;5;6m\]]:\[$(tput sgr0)\]\[\033[38;5;15m\] \n\\$\[$(tput sgr0)\]"
   export PROMPT_DIRTRIM=3
 fi
+
+# Start github ssh
+if [ -z "$SSH_AUTH_SOCK" ]; then eval "$(ssh-agent -s)"; fi; ssh-add ~/.ssh/github-provocative
