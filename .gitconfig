@@ -1,41 +1,42 @@
 [push]
-	default = simple
+  default = simple
   followTags = true
 [core]
-	trustctime = false
-	editor = vim
-	filemode = false
-	autocrlf = input 
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  trustctime = false
+  editor = vim
+  filemode = false
+  autocrlf = input 
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [color]
-	ui = true
+  ui = true
 [credential]
   # helper = cache --timeout=3600
 [alias]
-	last = log -1 --stat
-	cp = cherry-pick
-	co = checkout
-	cl = clone
-	ci = commit
-	st = status -sb
-	br = branch
-	unstage = reset HEAD --
-	dc = diff --cached
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
-	hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(cyan)<%an>%Creset' --abbrev-commit --date=short --all
-	type = cat-file -t
-	dump = cat-file -p
-	wl = worktree list
+  last = log -1 --stat
+  cp = cherry-pick
+  co = checkout
+  cl = clone
+  ci = commit
+  st = status -sb
+  br = branch
+  unstage = reset HEAD --
+  dc = diff --cached
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+  hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(cyan)<%an>%Creset' --abbrev-commit --date=short --all
+  type = cat-file -t
+  dump = cat-file -p
+  wl = worktree list
   fetch =  fetch --recurse-submodules=on-demand
   clone = clone --recurse-submodules
-	fist = "!git fetch; git hist"
+  fist = "!git fetch; git hist"
+  fpush = push --force-with-lease --force-if-includes
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [submodule]
   #recurse = true
 [http]
-	sslbackend = openssl
+  sslbackend = openssl
 [pull]
-	ff = only
+  ff = only
 [include]
-	path = ~/.gitconfig.local
+  path = ~/.gitconfig.local
