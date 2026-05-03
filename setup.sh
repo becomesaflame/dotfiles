@@ -80,6 +80,8 @@ ln -sf $rootDir/.bashrc ~/.bashrc
 ln -sf $rootDir/.vimrc ~/.vimrc
 ln -sf $rootDir/.gitconfig ~/.gitconfig
 ln -sf $rootDir/.tmux.conf ~/.tmux.conf
+mkdir -p ~/.config
+ln -sf $rootDir/.config/nvim ~/.config/nvim
 
 
 # Set up locale files
