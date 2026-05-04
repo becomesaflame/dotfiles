@@ -40,8 +40,8 @@ Plug 'scrooloose/nerdcommenter'
 
 " fzf plugin - sublime text style Ctrl+p file open
 "
-Plug 'junegunn/fzf', { 'tag': '0.12.2', 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim', { 'commit': '4d91156' }
+Plug 'junegunn/fzf', { 'tag': 'v0.72.0', 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 " ------------------------------------------------------
@@ -162,3 +162,6 @@ set wildmenu
 
 " ctags - search starting in current directory for ctags file
 set tags=./tags;/
+
+" Use the system clipboard for yanks/deletes/etc
+set clipboard=unnamedplus

@@ -40,3 +40,6 @@
   ff = only
 [include]
   path = ~/.gitconfig.local
+[user]
+	email = stevegrandpre@gmail.com
+	name = Spark

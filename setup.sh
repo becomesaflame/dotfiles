@@ -1,196 +1,153 @@
 #!/bin/bash
+set -euo pipefail
+
+# Pinned tool versions
+FZF_VERSION="v0.72.0"
+DIFF_SO_FANCY_VERSION="v1.4.10"
+TLDR_COMMIT="7d57134c2ab58eb5c906f31bdf695e653f5d128b"
 
 usage() {
-  cmd=$(basename $0)
+  cmd=$(basename "$0")
+  profiles=$(ls -1 profiles/)
   cat <<EOF
 
 Automatically sets up symbolic links in the home directory.
 Configures settings and plugins.
 
 USAGE: ./$cmd [options]
-$cmd [-l|--locale]
-Specify a locale. 
-Locale may be "home" or "work".  
-
-$cmd [-p|--platform]
-Specify a platform.
-Platform may be "linux" or "windows".
+$cmd [-p|--profile]
+Specify an environment profile. Default: "default"
+Available profiles:
+$(printf '  %s\n' $profiles)
 
 $cmd [-h|--help]
 Print this help message
 
 EOF
-exit 0
+  exit 0
 }
 
-cd $(dirname ${BASH_SOURCE[0]})  # Make sure we're in the directory where the script is located
+profile="default"
 
-# takes submodule name as argument
-# If submodule loaded properly, copies it into a backup with ".offline" appended
-backupSubmodule(){
-  submoduleDir="$1"
-  if [ "$(ls -A $submoduleDir)" ]; then # submodule has files in it
-    # Update the offline backup
-    rm -r $submoduleDir.offline
-    cp -r $submoduleDir $submoduleDir.offline
-  fi
-}
-
-
-# Parse args
 while [[ $# -gt 0 ]]; do
-  key="$1"
-
-  case $key in
-    -l|--locale)
-      locale="$2"
-      shift # past argument
-      shift # past parameter
+  case "$1" in
+    -p|--profile)
+      if [[ $# -lt 2 ]]; then
+        echo "Error: --profile requires a value"
+        exit 1
+      fi
+      profile="$2"
+      shift 2
       ;;
-    -p|--platform)
-      platform="$2"
-      shift # past argument
-      shift # past parameter
+    -h|--help)
+      usage
       ;;
-    *) #default
+    *)
       usage
       ;;
   esac
 done
 
-if [ "$locale" != "work" ] && [ "$locale" != "home" ]; then
-  echo "Invalid locale $locale.  Locale may be \"home\" or \"work\"."
+cd "$(dirname "${BASH_SOURCE[0]}")"
+rootDir=$(pwd)
+
+if [ ! -d "$rootDir/profiles/$profile" ]; then
+  echo "Unknown profile \"$profile\". Available profiles:"
+  ls -1 profiles/
   exit 1
 fi
-if [ "$platform" != "linux" ] && [ "$platform" != "windows" ]; then
-  echo "Invalid platform $platform.  Platform may be \"linux\" or \"windows\"."
-  exit 1
-fi
+
+echo "Setting up with profile=$profile"
 
 ##########################
 # Dotfiles
 ##########################
 
-# Set up symbolic links in home directory
 echo "-----------------------------"
 echo "Installing dotfiles"
 echo "-----------------------------"
-rootDir=$(pwd)
-ln -sf $rootDir/.bashrc ~/.bashrc
-ln -sf $rootDir/.vimrc ~/.vimrc
-ln -sf $rootDir/.gitconfig ~/.gitconfig
-ln -sf $rootDir/.tmux.conf ~/.tmux.conf
+ln -sf "$rootDir/.bashrc" ~/.bashrc
+ln -sf "$rootDir/.vimrc" ~/.vimrc
+ln -sf "$rootDir/.gitconfig" ~/.gitconfig
+ln -sf "$rootDir/.tmux.conf" ~/.tmux.conf
 mkdir -p ~/.config
-ln -sf $rootDir/.config/nvim ~/.config/nvim
+ln -sf "$rootDir/.config/nvim" ~/.config/nvim
 
-
-# Set up locale files
 echo "-----------------------------"
-echo "Installing locale files"
+echo "Installing profile: $profile"
 echo "-----------------------------"
-if [ "$locale" == "work" ]; then 
-  ln -sf "$rootDir/.bashrc.local.work.$platform" ~/.bashrc.local
-  ln -sf "$rootDir/.gitconfig.local.work.$platform" ~/.gitconfig.local
-else
-  ln -sf "$rootDir/.bashrc.local.home" ~/.bashrc.local
-  ln -sf "$rootDir/.gitconfig.local.home" ~/.gitconfig.local
-fi
-
-ln -sf "$rootDir/.vimrc.local.$locale" ~/.vimrc.local
-
+for file in "$rootDir/profiles/$profile"/.*; do
+  [ -f "$file" ] || continue
+  ln -sf "$file" "$HOME/$(basename "$file")"
+done
 
 #########################
 # Plugins and tools
 #########################
 
-# Set up vim plugged
+mkdir -p ~/bin
+export PATH="$HOME/bin:$PATH"
+
 echo "-----------------------------"
-echo "Installing vim plugged"
+echo "Installing vim-plug"
 echo "-----------------------------"
-# Attempt to set up vim plugged the normal way
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-internet=$?
-echo "internet = $internet"
+echo "Reload .vimrc and run :PlugInstall to install vim plugins."
 
-# Use offline backup if curl failed
-if [ "$internet" != 0 ]; then
-  cp -r $rootDir/.vim/ ~
-fi
-
-echo "-----------------------------"
-echo "Installing vim-sensible"
-echo "-----------------------------"
-backupSubmodule "vim-sensible"
-# update offline .vim folder
-rm -r $rootdir/.vim/plugged/vim-sensible
-cp -r vim-sensible.offline $rootdir/.vim/plugged/vim-sensible
-
-
-echo "Reload .vimrc and :PlugInstall to install vim plugins."
-
-# Install tmux
-chmod +x tmux_local_install.sh
 echo "-----------------------------"
 echo "Installing tmux"
 echo "-----------------------------"
-which tmux >/dev/null 2>&1 || ./tmux_local_install.sh
+if command -v tmux >/dev/null 2>&1; then
+  echo "tmux already installed: $(tmux -V)"
+else
+  echo "tmux not found. Install it with your package manager (e.g. sudo apt install tmux)."
+fi
 
-# Set up tpm (tmux plugin manager)
-if [ "$internet" != 0 ]; then
-  cp -r $rootDir/.tmux/ ~
+echo "-----------------------------"
+echo "Installing tpm"
+echo "-----------------------------"
+if [ -d ~/.tmux/plugins/tpm ]; then
+  echo "tpm already installed"
 else
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
-
 echo "In tmux, enter prefix + I to install plugins"
 
-
-# Set up tldr
 echo "-----------------------------"
-echo "Installing tldr"
+echo "Installing tldr (commit ${TLDR_COMMIT:0:7})"
 echo "-----------------------------"
-backupSubmodule "raylee-tldr"
-[ -d ~/bin ] || mkdir ~/bin
-cp -r raylee-tldr.offline/tldr ~/bin/
+tmpdir=$(mktemp -d)
+git clone --quiet https://github.com/raylee/tldr-sh-client.git "$tmpdir/tldr-sh-client"
+git -C "$tmpdir/tldr-sh-client" checkout --quiet "$TLDR_COMMIT"
+cp "$tmpdir/tldr-sh-client/tldr" ~/bin/
 chmod +x ~/bin/tldr
-source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+rm -rf "$tmpdir"
 
-if [ "$internet" != 0 ]; then
-  cp -r .config ~
-else
-  [ -d ~/.config ] || mdkir ~/.config
-  tldr -c
-  cp -r ~/.config/tldr/index.json .config/tldr/ # Update offline backup with latest tldr config
-fi
-
-
-# Set up diff-so-fancy
 echo "-----------------------------"
-echo "Installing diff-so-fancy"
+echo "Installing diff-so-fancy $DIFF_SO_FANCY_VERSION"
 echo "-----------------------------"
-backupSubmodule "diff-so-fancy"
-[ -d ~/bin ] || mkdir ~/bin
-cp -r diff-so-fancy.offline/third_party/build_fatpack/diff-so-fancy ~/bin/
+tmpdir=$(mktemp -d)
+git clone --quiet --depth 1 --branch "$DIFF_SO_FANCY_VERSION" \
+    https://github.com/so-fancy/diff-so-fancy.git "$tmpdir/diff-so-fancy"
+cp "$tmpdir/diff-so-fancy/diff-so-fancy" ~/bin/
 chmod +x ~/bin/diff-so-fancy
-source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
+rm -rf "$tmpdir"
 
-
-# Set up fzf
 echo "-----------------------------"
-echo "Installing fzf"
+echo "Installing fzf $FZF_VERSION"
 echo "-----------------------------"
-backupSubmodule "fzf-portable"
-cd fzf-portable.offline
-chmod +x install
-which fzf >/dev/null 2>&1 || ./install --all --no-fish --no-zsh
-cd -
-source ~/.bashrc # assuming that .bashrc adds ~/bin to PATH
-
-
-# Remind user to check in updates to backups
-git update-index --refresh
-if ! git diff-index --quiet HEAD --; then # There are uncommitted changes
-  echo "Backup files have been updated. Commit and push them"
-  echo
+if [ -d ~/.fzf ]; then
+  cd ~/.fzf
+  git fetch --quiet --tags
+  git checkout --quiet "$FZF_VERSION"
+  cd -
+else
+  git clone --quiet --depth 1 --branch "$FZF_VERSION" \
+      https://github.com/junegunn/fzf.git ~/.fzf
 fi
+~/.fzf/install --all --no-fish --no-zsh
+
+echo "-----------------------------"
+echo "Setup complete"
+echo "-----------------------------"
