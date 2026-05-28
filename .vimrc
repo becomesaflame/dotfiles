@@ -30,21 +30,17 @@ Plug 'scrooloose/nerdcommenter'
 " Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 "
 " " Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"
-" " Unmanaged plugin (manually installed and updated)
 " Plug '~/my-prototype-plugin'
 
 " Add plugins to &runtimepath
 
-
-" fzf plugin - sublime text style Ctrl+p file open
-"
-Plug 'junegunn/fzf', { 'tag': 'v0.72.0', 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
 call plug#end()
 " ------------------------------------------------------
+
+" fzf (apt package) - sublime text style Ctrl+p file open
+if filereadable('/usr/share/doc/fzf/examples/plugin/fzf.vim')
+  set rtp+=/usr/share/doc/fzf/examples
+endif
 
 " NERDTree setup
 " close vim if the only window left open is a NERDTree
@@ -59,7 +55,8 @@ map <C-P> :FZF<CR>
 nmap % :call cursor(0, virtcol('$')/2)<CR>
 
 " Jump to matching brace
-nnoremap  %
+nnoremap 
+ %
 
 
 " NERD Commenter settings
