@@ -1,6 +1,6 @@
 # Synology On-Demand Sync via rclone + Tailscale
 
-On-demand mount of Synology shared folders over SFTP. Files appear locally without downloading; content fetches on open; new/modified files upload automatically.
+On-demand mount of Synology shared folders over SFTP. Files appear locally without downloading; content fetches from the NAS on open and is then cached on local disk (so re-reads are instant); new/modified files upload automatically.
 
 ## Prerequisites
 
@@ -23,11 +23,21 @@ The shared node then appears in the work tailnet — only visible to your accoun
 
 ## Install rclone
 
-The Ubuntu/apt version is outdated and has SSH key parsing bugs. Install from the official source:
+The Ubuntu/apt rclone (v1.60.x-DEV as of 26.04) is years out of date and has **two** bugs that bite this setup, so don't use it:
+
+- It can't parse OpenSSH-format private keys.
+- Its VFS cache downloader **stalls forever reading a large file (>~128 MB) through the mount** — small reads and direct `rclone copy` work, but `cat`/apps reading a big file through the mount hang with no error logged. Fixed in current rclone.
+
+Install the current rclone to `/usr/local/bin`, kept separate from the apt-managed `/usr/bin/rclone` so package updates can't clobber it:
 
 ```bash
-curl -fsSL https://rclone.org/install.sh | sudo bash
+curl -fsSL -o /tmp/rclone.zip https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip -q /tmp/rclone.zip -d /tmp/rclone-current
+sudo install -m 0755 /tmp/rclone-current/*/rclone /usr/local/bin/rclone
+/usr/local/bin/rclone version   # confirm (currently v1.74.x)
 ```
+
+The systemd units below call `/usr/local/bin/rclone` by explicit path. **Updates are manual** — re-run the above to upgrade; `apt` won't help.
 
 Also ensure FUSE is installed:
 
@@ -45,15 +55,9 @@ rclone config
 - Type: `sftp`
 - Host: `nephila.tail491f36.ts.net`
 - User: `sgrandpre`
-- For auth, use password (not SSH key — see gotchas below)
+- Auth: password (see the SSH-key gotcha below)
 
-When prompted for the password, let rclone obscure it. Or set it afterward:
-
-```bash
-rclone obscure  # type password, get obscured string
-```
-
-Then edit `~/.config/rclone/rclone.conf`:
+When prompted for the password, let rclone obscure it (or run `rclone obscure` to get the string). Then `~/.config/rclone/rclone.conf`:
 
 ```ini
 [nephila]
@@ -62,7 +66,10 @@ host = nephila.tail491f36.ts.net
 user = sgrandpre
 pass = <obscured password>
 shell_type = unix
+disable_hashcheck = true
 ```
+
+`disable_hashcheck = true` is **required** — without it rclone deletes its own uploads (see the hashcheck gotcha below).
 
 Test:
 
@@ -70,7 +77,7 @@ Test:
 rclone lsd nephila:/
 ```
 
-You should see shared folders (spark, audiobooks, eBooks, etc.). The share paths are at the root (`/spark`), not under `/volume1/`.
+You should see shared folders (spark, audiobooks, eBooks, etc.). SFTP share paths are at the root (`/spark`), not under `/volume1/`.
 
 ## Create mount points
 
@@ -92,18 +99,34 @@ Wants=network-online.target
 
 [Service]
 Type=notify
-ExecStart=rclone mount nephila:/spark %h/Synology/spark \
-  --vfs-cache-mode writes \
-  --vfs-cache-max-age 24h \
-  --dir-cache-time 5m \
-  --allow-non-empty
-ExecStop=/bin/fusermount3 -u %h/Synology/spark
-Restart=on-failure
+# Wait until the Synology's SSH port is reachable before starting, so the mount
+# doesn't thrash at boot/resume before Tailscale is up.
+ExecStartPre=/usr/bin/bash -c 'for i in $(seq 1 30); do timeout 3 bash -c "exec 3<>/dev/tcp/nephila.tail491f36.ts.net/22" 2>/dev/null && exit 0; sleep 2; done; exit 0'
+ExecStart=/usr/local/bin/rclone mount nephila:/spark %h/Synology/spark \
+  --vfs-cache-mode full \
+  --vfs-cache-max-age 8760h \
+  --vfs-cache-max-size 1T \
+  --dir-cache-time 24h \
+  --allow-non-empty \
+  --timeout 60s \
+  --contimeout 15s \
+  --sftp-idle-timeout 30s \
+  --low-level-retries 10
+ExecStop=/bin/fusermount3 -uz %h/Synology/spark
+Restart=always
 RestartSec=10
+TimeoutStopSec=20
 
 [Install]
 WantedBy=default.target
 ```
+
+Notes on the flags:
+
+- `--vfs-cache-mode full` caches read files on local disk (`~/.cache/rclone`) so opening a file a second time is instant and offline-capable. (The older `writes` mode only cached *uploads* and re-streamed every read.)
+- `--vfs-cache-max-size 1T` caps each mount's cache. It's **per mount**, so three mounts can use up to 3×1T — watch free space on `~` (lives on `/home`).
+- `--vfs-cache-max-age 8760h` keeps cached files ~1 year.
+- Writes are buffered to the cache and uploaded with automatic retry, so a file created while the NAS is briefly unreachable uploads once it returns — *provided the mount is already running*. rclone's SFTP backend can't establish a brand-new mount while the NAS is down (it connects at mount time).
 
 Repeat for audiobooks (`nephila:/audiobooks` → `%h/Synology/audiobooks`) and eBooks (`nephila:/eBooks` → `%h/Synology/eBooks`).
 
@@ -124,15 +147,35 @@ sudo loginctl enable-linger $USER
 
 ## Gotchas
 
-### Don't use SSH key auth with Synology
+### `disable_hashcheck = true` is required (or rclone deletes its own uploads)
 
-Synology DSM uses ACLs that make home directories appear world-writable (`drwxrwxrwx+`) in POSIX permissions. OpenSSH's `StrictModes` (enabled by default) rejects publickey auth when the home directory, `~/.ssh`, or `authorized_keys` are group/world-writable. The key gets rejected silently — SSH falls back to password auth (via KDE Wallet), so it looks like the key works, but it doesn't.
+After uploading, rclone verifies the file by running `md5sum` over an SSH shell. On Synology the SFTP service and the SSH shell see *different* absolute paths — SFTP is rooted at the share (`/audiobooks/...`) while the shell sees the real volume path (`/volume1/audiobooks/...`). So the post-upload `md5sum` runs against a path that doesn't exist, errors out, and rclone concludes the transfer was "corrupted on transfer" and **deletes the file it just uploaded** (`SetModTime` fails the same way). Set `disable_hashcheck = true` on the remote to skip the shell hash check. (SFTP size verification still applies.)
 
-Fixing this requires `StrictModes no` in `/etc/ssh/sshd_config` on the Synology, but modifying sshd_config and reloading sshd on Synology is risky — `kill -HUP` can take down sshd entirely and DSM's service manager won't auto-restart it. Password auth via rclone's obscured password storage is simpler and reliable.
+### Don't let Synology Drive sync the same folders rclone writes to
 
-### Don't use the apt version of rclone
+If Synology Drive Server / ShareSync is two-way-syncing a shared folder that rclone also writes into, it treats rclone's atomic writes as conflicts and quarantines every uploaded file into a `<name>_<account>_<timestamp>_Conflict/` directory. This silently produced ~1,900 conflict directories (~2 TB of duplicate copies) on the audiobooks share. Fix: disable Synology Drive sync on rclone-managed shares, **or** make it one-way (DS → peer) — a one-way sync never creates conflict copies. Never have two writers on one folder. (To clean up an existing mess, on the NAS: `find /volume1/<share> -depth -type d -name '*_Conflict' -exec rm -rf {} +`.)
 
-Ubuntu's packaged rclone (v1.60.x-DEV as of 26.04) can't parse OpenSSH-format private keys. Always install from https://rclone.org/install.sh.
+### Use current rclone — old versions stall on large reads
+
+The apt rclone (v1.60) hangs forever reading files larger than ~128 MB *through the mount* (VFS cache-downloader bug); small reads and direct `rclone copy` are unaffected. If a large read hangs at a fixed size with no error in the logs, check `rclone version` — current rclone (v1.74+) reads them fine. See Install above.
+
+### SSH key auth *can* work — fix the home-dir perms
+
+rclone here uses password auth (simplest, and what's configured). If you want SSH **key** auth too (e.g. for a maintenance shell), `ssh-copy-id` alone isn't enough: Synology home dirs are group/world-writable by default, so OpenSSH `StrictModes` silently rejects the key and falls back to password. You do **not** need `StrictModes no` — just tighten the perms on the Synology:
+
+```bash
+ssh sgrandpre@nephila 'chmod 700 ~ ~/.ssh && chmod 600 ~/.ssh/authorized_keys'
+```
+
+Verify with `ssh -v` that the server accepts the offered key (not "Permission denied (publickey,password)").
+
+### Hibernation: dead mounts block the freeze
+
+If the NAS/network goes away, processes touching the mount get stuck in uninterruptible (D) state, and the kernel then fails to freeze tasks during hibernation ("Freezing of tasks failed (N tasks refusing to freeze)"). A root sleep hook at `/usr/lib/systemd/system-sleep/50-rclone-synology` lazy-unmounts and stops the rclone services before sleep and restarts them on resume. See `notes/hibernation.md`.
+
+### Copying large files to a phone: use KDE Connect, not MTP/USB
+
+MTP (USB) writes of large files fail on Linux — `kio_mtp`/Dolphin and `go-mtpfs` both choke on big files (small files are fine), and a failed write wedges the MTP session. Use KDE Connect over wifi to send a large file to an Android phone instead. (Also: Android file managers can't move a file into a folder whose name contains a `:` — rename the folder without the colon first.)
 
 ### SFTP must be enabled separately from SSH
 
@@ -140,4 +183,4 @@ SSH (Control Panel → Terminal & SNMP) and SFTP (Control Panel → File Service
 
 ### Share paths
 
-SFTP paths on Synology are at the root (`/spark`, `/audiobooks`), not under `/volume1/`.
+SFTP paths on Synology are at the root (`/spark`, `/audiobooks`), not under `/volume1/`. (The SSH *shell*, by contrast, sees `/volume1/...` — this mismatch is what breaks hashcheck above.)
