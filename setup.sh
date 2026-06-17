@@ -130,6 +130,7 @@ tmpdir=$(mktemp -d)
 git clone --quiet --depth 1 --branch "$DIFF_SO_FANCY_VERSION" \
     https://github.com/so-fancy/diff-so-fancy.git "$tmpdir/diff-so-fancy"
 cp "$tmpdir/diff-so-fancy/diff-so-fancy" ~/bin/
+cp -r "$tmpdir/diff-so-fancy/lib" ~/bin/
 chmod +x ~/bin/diff-so-fancy
 rm -rf "$tmpdir"
 

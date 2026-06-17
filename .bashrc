@@ -42,6 +42,12 @@ PATH="$HOME/local/bin:$PATH"
 
 [ -e ~/.local/bin/env ] && source ~/.local/bin/env
 
+# Set prompt
+if [[ $- == *i* ]]; then
+  export PS1="\[\033[38;5;40m\]\u@\h\[$(tput sgr0)\]\[\033[38;5;6m\][\[$(tput sgr0)\]\[\033[38;5;15m\]\[$(tput sgr0)\]\[\033[38;5;87m\]\w\[$(tput sgr0)\]\[\033[38;5;6m\]]:\[$(tput sgr0)\]\[\033[38;5;15m\] \n\\$\[$(tput sgr0)\]"
+  export PROMPT_DIRTRIM=3
+fi
+
 # Run local bash settings
 [ -e ~/.bashrc.local ] && source ~/.bashrc.local
 

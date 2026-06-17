@@ -1,5 +1,5 @@
 # Start github ssh
-github_key=~/.ssh/github-provocative
+github_key=~/.ssh/bob-github
 if [ -f "$github_key" ]; then
   if [ -z "$SSH_AUTH_SOCK" ]; then eval "$(ssh-agent -s)"; fi
   ssh-add "$github_key" 2>/dev/null
