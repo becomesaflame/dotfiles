@@ -232,6 +232,15 @@ chmod +x ~/bin/diff-so-fancy
 rm -rf "$tmpdir"
 
 echo "-----------------------------"
+echo "Installing bash-completion"
+echo "-----------------------------"
+if dpkg -l bash-completion 2>/dev/null | awk '{print $1}' | grep -qx ii; then
+  echo "bash-completion already installed"
+else
+  sudo apt-get install -y bash-completion
+fi
+
+echo "-----------------------------"
 echo "Installing fzf"
 echo "-----------------------------"
 if command -v fzf >/dev/null 2>&1; then

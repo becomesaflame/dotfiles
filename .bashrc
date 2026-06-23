@@ -33,6 +33,25 @@ fi
 # Start fuzzy finder
 [ -e ~/.fzf.bash ] && source ~/.fzf.bash
 
+# fzf completion overrides git with path completion; restore branch completion
+restore_git_bash_completion() {
+  [[ $- == *i* ]] || return 0
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  else
+    return 0
+  fi
+  complete -r git 2>/dev/null || true
+  if type _comp_load &>/dev/null; then
+    _comp_load git 2>/dev/null || true
+  elif [ -f /usr/share/bash-completion/completions/git ]; then
+    . /usr/share/bash-completion/completions/git
+  fi
+}
+restore_git_bash_completion
+
 # venv alias
 alias venv='python3 -m venv .venv && source .venv/bin/activate'
 
