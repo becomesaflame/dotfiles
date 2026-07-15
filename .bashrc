@@ -54,6 +54,7 @@ restore_git_bash_completion
 
 # venv alias
 alias venv='python3 -m venv .venv && source .venv/bin/activate'
+alias activate='source .venv/bin/activate'
 
 # Add local bin to path
 PATH="$HOME/bin:$PATH"
