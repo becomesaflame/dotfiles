@@ -44,4 +44,11 @@ if [ -z "$MSG" ]; then
 fi
 
 git commit -m "$MSG"
+
+if ! git pull --rebase; then
+  echo "git pull --rebase failed (conflict?) -- aborting rebase; commit stays local, unpushed." >&2
+  git rebase --abort 2>/dev/null || true
+  exit 1
+fi
+
 git push

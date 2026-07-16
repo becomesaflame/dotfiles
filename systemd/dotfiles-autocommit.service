@@ -1,0 +1,7 @@
+[Unit]
+Description=Auto-commit and push changes to dotfiles repo
+
+[Service]
+Type=oneshot
+EnvironmentFile=-%h/.config/dotfiles-autocommit.env
+ExecStart=%h/dotfiles/bin/git-auto-sync.sh
